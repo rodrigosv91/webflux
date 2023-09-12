@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
+
 @Service
 public class UserService {
 
@@ -22,6 +24,13 @@ public class UserService {
 
     public Flux<User> getUsers() {
         return userRepository.findAll();
+    }
+
+    public Flux<User> getUsersWithDelay() {
+        return userRepository.findAll()
+                .delayElements(
+                        Duration.ofSeconds(2)
+                );
     }
 
     public void addUser(User user){

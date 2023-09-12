@@ -22,6 +22,10 @@ public class UserController {
         return userService.getUsers();
     }
 
+    public Flux<User> findAllUsersWithDelay(){
+        return userService.getUsersWithDelay();
+    }
+
     @GetMapping("/user/{id}")
     public Mono<User> findUserById( @PathVariable Long id){
         return userService.getUserById(id);

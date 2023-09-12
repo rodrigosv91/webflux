@@ -1,4 +1,4 @@
-package configuration;
+package com.devrdg.springwebflux.configuration;
 
 import io.r2dbc.spi.ConnectionFactories;
 import io.r2dbc.spi.ConnectionFactory;
@@ -14,7 +14,7 @@ import org.springframework.r2dbc.connection.init.ResourceDatabasePopulator;
 public class DBConfig extends AbstractR2dbcConfiguration {
     @Override
     public ConnectionFactory connectionFactory() {
-        return ConnectionFactories.get("r2db:postgresql://locahost:5433/testdb");
+        return ConnectionFactories.get("r2dbc:postgresql://localhost:5432/testdb");
     }
 
     @Bean

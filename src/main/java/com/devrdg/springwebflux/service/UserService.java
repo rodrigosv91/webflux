@@ -1,6 +1,6 @@
 package com.devrdg.springwebflux.service;
 
-import com.devrdg.springwebflux.model.User;
+import com.devrdg.springwebflux.model.Users;
 import com.devrdg.springwebflux.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,26 +18,26 @@ public class UserService {
     //Mono - 0 - 1 // gets a single stream
     //Flux - 0 - N // reactive sequence of items (multiple streams)
 
-    public Mono<User> getUserById(Long id) {
+    public Mono<Users> getUserById(Long id) {
         return userRepository.findById(id);
     }
 
-    public Flux<User> getUsers() {
+    public Flux<Users> getUsers() {
         return userRepository.findAll();
     }
 
-    public Flux<User> getUsersWithDelay() {
+    public Flux<Users> getUsersWithDelay() {
         return userRepository.findAll()
                 .delayElements(
                         Duration.ofSeconds(2)
                 );
     }
 
-    public void addUser(User user){
+    public void addUser(Users user){
         userRepository.save(user).subscribe();
     }
 
-    public Mono<User> updateUser(User user){
+    public Mono<Users> updateUser(Users user){
         return userRepository.findById(user.getId())
                 .switchIfEmpty(Mono.error(new Exception("User not found")))
                 .map(oldUser -> {

@@ -32,6 +32,10 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public Mono<User> findById(String userId){
+        return userRepository.findById(userId);
+    }
+
     public Mono<User> updateUser(String userId, User user){
         return userRepository.findById(userId)
                 .flatMap(dbUser -> {

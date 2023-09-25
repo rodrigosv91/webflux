@@ -52,14 +52,6 @@ public class UserService {
                 );
     }
 
-    public Mono<User> deleteUser2(String idUser){
-        return userRepository.findById(idUser)
-                .map(existingUser  -> {
-                    userRepository.delete(existingUser);
-                    return existingUser;
-                });
-    }
-
     public Flux<User> fetchUsers(String name){
         Query query = new Query()
                 .with(Sort

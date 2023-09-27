@@ -19,7 +19,9 @@ public class RouterConfig {
         return RouterFunctions
                 .route(GET("/handler/user").and(accept(MediaType.APPLICATION_JSON)), handler::getAllUsers)
                 .andRoute(GET("/handler/user/{userId}").and(contentType(MediaType.APPLICATION_JSON)), handler::getUserById)
-                ;
+                .andRoute(POST("/handler/user").and(accept(MediaType.APPLICATION_JSON)), handler::create)
+                .andRoute(PUT("/handler/user/{userId}").and(contentType(MediaType.APPLICATION_JSON)), handler::updateUserById)
+                .andRoute(DELETE("/handler/user/{userId}").and(accept(MediaType.APPLICATION_JSON)), handler::deleteUserById);
     }
 
 }

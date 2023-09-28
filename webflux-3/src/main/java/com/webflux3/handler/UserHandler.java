@@ -28,20 +28,20 @@ public class UserHandler {
     }
 
     public Mono<ServerResponse> getUserById(ServerRequest request){
-        return userService
-                .findById(request.pathVariable("userId"))
-                .flatMap(user -> ServerResponse
-                        .ok()
-                        .contentType(MediaType.APPLICATION_JSON)
-                        //.body(user, User.class)
-                        .bodyValue(user)
-                )
-                .switchIfEmpty(ServerResponse.notFound().build());
+//        return userService
+//                .findById(request.pathVariable("userId"))
+//                .flatMap(user -> ServerResponse
+//                        .ok()
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        //.body(user, User.class)
+//                        .bodyValue(user)
+//                )
+//                .switchIfEmpty(ServerResponse.notFound().build());
 
-//        String id = request.pathVariable("userId");
-//        return ok()
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .body(userService.findById(id), User.class);
+        String id = request.pathVariable("userId");
+        return ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(userService.findById(id), User.class);
     }
 
     public Mono<ServerResponse> create(ServerRequest request){ //recebe a request sendo processada inplicitamente

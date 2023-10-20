@@ -6,6 +6,7 @@ import org.example.webflux4essentials.domain.Anime;
 import org.example.webflux4essentials.repository.AnimeRepository;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
 @Slf4j
@@ -16,5 +17,10 @@ public class AnimeService {
 
     public Flux<Anime> findAll() {
         return animeRepository.findAll();
+    }
+
+    public Mono<Anime> findById(int id){
+        return animeRepository.findById(id)
+                .log();
     }
 }

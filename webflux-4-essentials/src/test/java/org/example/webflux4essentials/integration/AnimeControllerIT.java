@@ -190,5 +190,32 @@ public class AnimeControllerIT {
                 .jsonPath("$.developerMessage").isEqualTo("A ResponseStatusException Happened");
     }
 
+    @Test
+    @DisplayName("update save updated anime and returns empty mono when successful")
+    public void update_SaveUpdatedAnime_WhenSuccessful() {
+        testClient
+                .put()
+                .uri("/animes/{id}", 1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(anime))
+                .exchange()
+                .expectStatus().isNoContent();
+    }
 
+    @Test
+    @DisplayName("update returns Mono error when anime does not exist")
+    public void update_ReturnMonoError_WhenEmptyMonoIsReturned() {
+        BDDMockito.when(animeRepositoryMock.findById(ArgumentMatchers.anyInt()))
+                .thenReturn(Mono.empty());
+
+        testClient.put()
+                .uri("/animes/{id}", 1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(anime))
+                .exchange()
+                .expectStatus().isNotFound()
+                .expectBody()
+                .jsonPath("$.status").isEqualTo(404)
+                .jsonPath("$.developerMessage").isEqualTo("A ResponseStatusException Happened");
+    }
 }

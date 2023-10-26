@@ -1,8 +1,11 @@
 package org.example.webflux4essentials.config;
 
 
+import org.example.webflux4essentials.service.ProjectUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.ReactiveAuthenticationManager;
+import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
@@ -35,19 +38,24 @@ public class SecurityConfig {
 
     }
 
+//    @Bean
+//    public MapReactiveUserDetailsService userDetailsService() {
+//        PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+//        UserDetails user = User.withUsername("rodrigo2")
+//                .password(passwordEncoder.encode("senha123"))
+//                .roles("USER")
+//                .build();
+//
+//        UserDetails admin = User.withUsername("admin")
+//                .password(passwordEncoder.encode("senha123"))
+//                .roles("USER", "ADMIN")
+//                .build();
+//
+//        return new MapReactiveUserDetailsService(user, admin);
+//    }
+
     @Bean
-    public MapReactiveUserDetailsService userDetailsService() {
-        PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        UserDetails user = User.withUsername("rodrigo2")
-                .password(passwordEncoder.encode("senha123"))
-                .roles("USER")
-                .build();
-
-        UserDetails admin = User.withUsername("admin")
-                .password(passwordEncoder.encode("senha123"))
-                .roles("USER", "ADMIN")
-                .build();
-
-        return new MapReactiveUserDetailsService(user, admin);
+    ReactiveAuthenticationManager authenticationManager(ProjectUserDetailsService projectUserDetailsService) {
+        return new UserDetailsRepositoryReactiveAuthenticationManager(projectUserDetailsService);
     }
 }

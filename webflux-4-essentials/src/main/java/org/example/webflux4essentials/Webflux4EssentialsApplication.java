@@ -10,6 +10,8 @@ public class Webflux4EssentialsApplication {
 	static {
 		BlockHound.install(
 				builder -> builder.allowBlockingCallsInside("java.util.UUID", "randomUUID")
+						.allowBlockingCallsInside("java.io.FilterInputStream", "read")
+						.allowBlockingCallsInside("java.io.InputStream", "readNBytes")
 		);
 	}
 	public static void main(String[] args) {

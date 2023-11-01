@@ -10,8 +10,6 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
-import static org.springframework.web.reactive.function.server.ServerResponse.ok;
-
 @Component
 @RequiredArgsConstructor
 public class UserHandler {
@@ -28,20 +26,15 @@ public class UserHandler {
     }
 
     public Mono<ServerResponse> getUserById(ServerRequest request){
-//        return userService
-//                .findById(request.pathVariable("userId"))
-//                .flatMap(user -> ServerResponse
-//                        .ok()
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        //.body(user, User.class)
-//                        .bodyValue(user)
-//                )
-//                .switchIfEmpty(ServerResponse.notFound().build());
-
-        String id = request.pathVariable("userId");
-        return ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(userService.findById(id), User.class);
+        return userService
+                .findById(request.pathVariable("userId"))
+                .flatMap(user -> ServerResponse
+                        .ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(Mono.just(user), User.class)
+                        //.bodyValue(user)
+                )
+                .switchIfEmpty(ServerResponse.notFound().build());
     }
 
     public Mono<ServerResponse> create(ServerRequest request){ //recebe a request sendo processada inplicitamente
@@ -72,9 +65,8 @@ public class UserHandler {
                 .flatMap(user -> ServerResponse
                         .ok()
                         .contentType(MediaType.APPLICATION_JSON)
+                        .body(Mono.just(user), User.class)
                         //.bodyValue(user)
-                        .body(user, User.class)
-
                 )
                 .switchIfEmpty(ServerResponse.notFound().build());
     }
